@@ -381,7 +381,9 @@ NSMutableDictionary *fileStreams = nil;
         NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:path];
         NSData * content = nil;
         if([encoding containsString:@"base64"]) {
-            content = [[NSData alloc] initWithBase64EncodedString:data options:0];
+            // content = [[NSData alloc] initWithBase64EncodedString:data options:0];
+            // fix para converter corretamente a NFCE caracters desconhecidos na string do base64
+            content = [[NSData alloc] initWithBase64EncodedString:data options:NSDataBase64DecodingIgnoreUnknownCharacters];
         }
         else if([encoding isEqualToString:@"uri"]) {
             NSNumber* size = [[self class] writeFileFromFile:data toFile:path append:append callback:^(NSString *errMsg, NSNumber *size) {
